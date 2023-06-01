@@ -4,7 +4,7 @@ const cors = require('cors');
 const handlErrors = require('../src/utils/error-handler');
 const  student  = require('./endPoints/student');
 const trainer = require('./endPoints/trainer');
-
+const Owener = require('./endPoints/owner');
 module.exports = async (app)=> {
 
     app.use(bodyParser.json({limit: '1mb'}));
@@ -14,6 +14,7 @@ module.exports = async (app)=> {
     //api
     student(app);
     trainer(app);
+    Owener(app);
 
     // error handlining middleware
     app.use(handlErrors);
