@@ -20,10 +20,14 @@ class studentService {
         }
     }
 
-    async findStudentList(){
-        let findBy = {};
+    async findStudentList(params){
+        let findBy = {ownerId : params.ownerId};
         try{
-          
+
+            if(params.search){
+                findBy["fullName"] = { $regex: params.search, $options: 'i' }; 
+            }
+
             findBy['isActive'] = true;
             const studentList = await  this.repository.getListOfStudents(findBy);
            
@@ -39,7 +43,7 @@ class studentService {
         try{
 
           payload['updatedTime'] = new Date().getTime();
-
+          console.log(payload)
           const updtStudentResult =  await this.repository.updateStudentRecord(requestId, payload);
           
           return updtStudentResult;

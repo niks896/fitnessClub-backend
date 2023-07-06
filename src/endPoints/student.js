@@ -15,6 +15,7 @@ module.exports = (app) => {
             payload['createdTime'] = new Date().getTime();
             payload['status'] = 'Active';
             payload['isActive'] = true;
+            payload['paymentStatus'] = 'paid';
 
            const studentResult =  await service.studentRegister(payload);
     
@@ -30,7 +31,7 @@ module.exports = (app) => {
         
         try{
          
-            const studentListResult = await service.findStudentList();
+            const studentListResult = await service.findStudentList(req.query);
 
             res.send(studentListResult);
         }catch(err){

@@ -10,7 +10,7 @@ module.exports = (app) => {
         
         try{
 
-            const trainerResult = await service.getTrainerList();
+            const trainerResult = await service.getTrainerList(req.query);
 
             res.send(trainerResult);
 
@@ -35,13 +35,24 @@ module.exports = (app) => {
     app.get("/api/getTrainerDetails", async (req, res, next) =>{
         try {
 
-            const trainerResult = await service.getTrainerDetails(req.query.requestId);
+            const trainerResult = await service.getTrainerDetails(req.query.trainerId);
 
             res.send(trainerResult);
 
         }catch(err){
             next(err)
         }   
+    })
+
+    app.get("/api/getTrainers", async (req, res, next) => {
+        try{
+
+            const trainers = await service.getTrainers(req.query)
+            
+            res.send(trainers);
+        }catch(err){
+            next(err)
+        }
     })
 
 

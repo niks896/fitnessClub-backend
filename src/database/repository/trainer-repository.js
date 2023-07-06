@@ -55,7 +55,6 @@ class TrainerRepository {
             .find(findBy)
             .project({_id: 0})
             .toArray()
-
             return result;
             
         }catch(err){
@@ -67,11 +66,11 @@ class TrainerRepository {
         }
     }
 
-    async updateTrainerDetails(requestId, payload){
+    async updateTrainerDetails(trainerId, payload){
         
         try{
       
-            let findBy = { requestId : requestId };
+            let findBy = { trainerId : trainerId };
             let client = await (await database).getClient();
             const result = await client.db(DBNAME).collection(TRAINER_REGISTER)
             .findOneAndUpdate(
@@ -86,6 +85,27 @@ class TrainerRepository {
                 "API Error",
                 STATUS_CODES.INTERNAL_ERROR,
                 "Enable to update student record"
+            )
+        }
+    }
+
+    async getAssignedTrainers(params) {
+        try{
+
+            const client = await (await database).getClient();
+
+            const result = await client.db(DBNAME).collection(TRAINER_REGISTER)
+            .find(params)
+            .project({rateType: 1, status: 1, trainerName: 1, trainerId :1})
+            .toArray()
+            
+            return result;
+
+        }catch(err){
+            throw new APIError(
+                "API Error",
+                STATUS_CODES.INTERNAL_ERROR,
+                "Enable to find trainers list"
             )
         }
     }

@@ -9,11 +9,13 @@ class TrainerService{
          this.repository = new TrainerRepository;
     }
 
-    async getTrainerList(){
+    async getTrainerList(params){
         try{
-           let findBy = { isActive : true }; 
-            const trainerResult = await this.repository.getTrainerListData(findBy);
-            return trainerResult;
+           let findBy = { isActive : true, ownerId : params.ownerId }; 
+           
+           const trainerResult = await this.repository.getTrainerListData(findBy);
+           
+           return trainerResult;
         }catch(err){
             APIError("Data Not Found")
         }
@@ -25,7 +27,7 @@ class TrainerService{
 
         try{
 
-            payload['requestId'] = await generateReqId();
+            payload['trainerId'] = await generateReqId();
             payload['createTime'] = new Date().getTime(); 
             payload['status'] = 'Active';
             payload['isActive'] = true;
@@ -38,11 +40,11 @@ class TrainerService{
         }
     }
 
-    async getTrainerDetails(requestId){
+    async getTrainerDetails(trainerId){
 
         try{
 
-            let findBy = { requestId : requestId };
+            let findBy = { trainerId : trainerId };
 
             const trainerResult = await this.repository.findTrainerDetails(findBy);
 
@@ -53,15 +55,29 @@ class TrainerService{
         }
     }
 
+    async getTrainers(params) {
+        try{
+
+            let findBy = { isActive : true, ownerId : params.ownerId };
+
+            const trainers = await this.repository.getAssignedTrainers(findBy);
+
+            return trainers;
+
+        }catch(err){
+            AppError("Data Not Found")
+        }
+    } 
+
     async updateTrainerDetails(body){
         
         try {
 
-            let { requestId, ...payload } = body;
+            let { trainerId, ...payload } = body;
 
             payload['updatedTime'] = new Date().getTime();
 
-            const trainerResult = await this.repository.updateTrainerDetails(requestId, payload);
+            const trainerResult = await this.repository.updateTrainerDetails(trainerId, payload);
 
             return trainerResult;
 
