@@ -1,10 +1,11 @@
-const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const handlErrors = require('../src/utils/error-handler');
 const  student  = require('./endPoints/student');
 const trainer = require('./endPoints/trainer');
-const Owener = require('./endPoints/owner');
+const Owner = require('./endPoints/owner');
+const payments = require('./endPoints/payments');
+
 module.exports = async (app)=> {
 
     app.use(bodyParser.json({limit: '1mb'}));
@@ -14,7 +15,8 @@ module.exports = async (app)=> {
     //api
     student(app);
     trainer(app);
-    Owener(app);
+    Owner(app);
+    payments(app);
 
     // error handlining middleware
     app.use(handlErrors);

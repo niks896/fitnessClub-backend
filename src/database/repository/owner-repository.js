@@ -3,7 +3,7 @@ const { APIError, STATUS_CODES } = require("../../utils/app-errors");
 const  database  = require('../dbConnection');
 
 
-class OwenerRepository {
+class OwnerRepository {
 
     constructor(){
 
@@ -29,12 +29,11 @@ class OwenerRepository {
         }
     }
 
-    async getOwenerDetails(findBy){
-
+    async getOwener(findBy){
+        
         try{
-console.log(findBy)
-            let client = (await database).getClient();
-
+            let client = await (await database).getClient();
+           
             const response = await client.db(DBNAME)
             .collection(OWNER_REGISTER)
             .find(findBy)
@@ -47,7 +46,7 @@ console.log(findBy)
             throw new APIError(
                 "API Error",
                 STATUS_CODES.INTERNAL_ERROR,
-                "Enable to find onwer details"
+                "Enable to find record"
             )
         }
     }
@@ -55,7 +54,7 @@ console.log(findBy)
     async updateOwnerDetails(findBy, payload){
         try{
 
-            let client = (await database).getClient();
+            let client =await (await database).getClient();
 
             const response = await client.db(DBNAME)
             .collection(OWNER_REGISTER)
@@ -77,4 +76,4 @@ console.log(findBy)
 
 } 
 
-module.exports = OwenerRepository;
+module.exports = OwnerRepository;

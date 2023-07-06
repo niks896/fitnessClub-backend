@@ -18,11 +18,11 @@ module.exports = (app) => {
         }
     })
 
-    app.get("/api/getOwnerDetails", async (req, res, next) => {
+    app.get("/api/getOwner", async (req, res, next) => {
 
         try{
 
-            let result = await this.service.getOwenerDetails(req.query.emailId);
+            let result = await this.service.getOwnerDetails(req.query.emailId);
 
             res.send(result);
 

@@ -1,4 +1,4 @@
-const OwenerRepository = require("../database/repository/owner-repository");
+const OwnerRepository = require("../database/repository/owner-repository");
 const { generateReqId } = require("../lib/utils");
 const { AppError } = require("../utils/app-errors")
 
@@ -6,14 +6,14 @@ const { AppError } = require("../utils/app-errors")
 class OwnerService {
 
     constructor(){
-        this.repository = new OwenerRepository();
+        this.repository = new OwnerRepository;
     }
 
     async createOwnerDetails(payload){
 
         try{
 
-            payload['requestId'] = await generateReqId();
+            payload['ownerId'] = await generateReqId();
             payload['createdTime'] = new Date().getTime();
 
             let ownerResult  = await this.repository.createOwner(payload);
@@ -21,24 +21,24 @@ class OwnerService {
             return ownerResult;
 
         }catch(err){
-            throw AppError(
+            throw new AppError(
                 "Data Not Found"
             )
         }
     }
 
-    async getOwenerDetails( emailId){
+    async getOwnerDetails(emailId){
 
         try{
 
             let findBy = { emailId : emailId };
 
-            let result = this.repository.getOwenerDetails(findBy);
+            let result = await this.repository.getOwener(findBy);
 
             return result;
 
         }catch(err){
-            throw  AppError(
+            throw new AppError(
                 "Data Not Found"
             )
         }
@@ -47,13 +47,13 @@ class OwnerService {
     async updateOwner(payload){
         
         try{
-            const { requestId, ...data } = payload;
+            const { ownerId, ...data } = payload;
             
             let result = await this.repository.updateOwnerDetails(findBy, data);
             
             return result;  
         }catch(err){
-            throw AppError(
+            throw new AppError(
                 "Data Not Found"
             )
         }

@@ -28,7 +28,7 @@ class StudentRepository {
     async getListOfStudents(findBy){
 
         try{
-          console.log(findBy)
+
             let client = await (await database).getClient();
          
             const response = await client.db(DBNAME).collection(STUDENT_REGISTER)
