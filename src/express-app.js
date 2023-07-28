@@ -7,6 +7,7 @@ const Owner = require('./endPoints/owner');
 const payments = require('./endPoints/payments');
 const schedular1 = require('./schedular/schedular-1');
 const notification = require('./endPoints/notification');
+const authentication = require('../src/endPoints/authentication');
 
 module.exports = async (app)=> {
 
@@ -15,6 +16,7 @@ module.exports = async (app)=> {
     app.use(cors());
 
     //api
+    authentication(app)
     student(app);
     trainer(app);
     Owner(app);

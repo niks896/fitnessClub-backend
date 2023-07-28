@@ -1,11 +1,12 @@
-const OwnerService = require("../services/owner-service")
+const OwnerService = require("../services/owner-service");
+const { authenticateToken } = require("../token-verify");
 
 
 module.exports = (app) => {
 
     this.service = new  OwnerService();
 
-    app.post("/api/createOwner", async (req, res, next) => {
+    app.post("/api/createOwner", authenticateToken, async (req, res, next) => {
 
         try{
 
@@ -18,7 +19,7 @@ module.exports = (app) => {
         }
     })
 
-    app.get("/api/getOwner", async (req, res, next) => {
+    app.get("/api/getOwner", authenticateToken, async (req, res, next) => {
 
         try{
 
@@ -31,7 +32,7 @@ module.exports = (app) => {
         }
     })
 
-    app.post("/api/updateOwnerDetails", async (req, res, next) =>{
+    app.post("/api/updateOwnerDetails", authenticateToken, async (req, res, next) =>{
 
         try{
 
