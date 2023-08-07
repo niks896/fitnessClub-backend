@@ -4,11 +4,12 @@ const database = require('../dbConnection');
 const bcrypt = require('bcryptjs');
 const OwnerRepository = require("./owner-repository");
 const jwt = require('jsonwebtoken');
+const OwnerService = require("../../services/owner-service");
 
 class authenticationRepository {
 
     constructor() {
-        this.repository = new OwnerRepository();
+        this.service = new OwnerService();
     }
 
     async register(findBy, payload) {
@@ -18,7 +19,7 @@ class authenticationRepository {
             let client = await (await database).getClient();
 
             let query = {
-                $or: [
+                $and: [
                     { username: { $regex: findBy.username, $options: 'i' } },
                     { emailId: { $regex: findBy.emailId, $options: 'i' } }
                 ]
@@ -46,7 +47,7 @@ class authenticationRepository {
 
             if (result) {
                 let { password, ...p } = userData;
-                this.repository.createOwner(p);
+                this.service.createOwnerDetails(p);
             }
 
             return {
@@ -70,12 +71,7 @@ class authenticationRepository {
 
             let client = await (await database).getClient();
 
-            let query = {
-                $or: [
-                    { username: { $regex: findBy.username, $options: 'i' } },
-                    { emailId: { $regex: findBy.username, $options: 'i' } }
-                ]
-            }
+            let query = { username: findBy.username}
             let user = await client.db(DBNAME).collection(USERS).findOne(query)
     
             if( user && ( await bcrypt.compare( password, user.password ))){

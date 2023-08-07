@@ -11,7 +11,7 @@ class notificationService {
     async getNotificationsData(params){
      
         try{
-            let findBy = {}
+            let findBy = { ownerId : params.ownerId }
             if(params){
                 findBy['isRead'] = params.isRead;
             }
