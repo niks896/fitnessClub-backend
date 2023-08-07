@@ -8,6 +8,7 @@ const insertNotifications = async (payload) => {
 
         let obj = {}; 
         obj['notificationId'] = await generateReqId();
+        obj['ownerId'] = payload['ownerId'];
         obj['fullName'] = payload['fullName'];
         obj['phNumber'] = payload['phNumber'];
         obj['amount'] = payload['amount'];
